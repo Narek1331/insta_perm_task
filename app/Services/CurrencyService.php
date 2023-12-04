@@ -1,14 +1,26 @@
 <?php
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
 use App\Models\Currency;
-use Carbon\Carbon;
 
 
 class CurrencyService{
 
-    public function index(){
+    /*
+        Get currencies
+    */
+    public function index(array $params = []){
+        $currencies = Currency::query();
 
+        if(isset($params['valuteID'])){
+            $currencies = $currencies->where('valuteID',$params['valuteID']);
+        }
+
+        if(isset($params['date_from']) && isset($params['date_to'])){
+            $currencies = $currencies->whereDate('date','>=',$params['date_from'])
+            ->whereDate('date','<=',$params['date_to']);
+        }
+
+        return $currencies->get();
     }
 }

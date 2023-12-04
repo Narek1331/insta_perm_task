@@ -27,9 +27,8 @@ class GetCurrency extends Seeder
         $response = Http::get('https://www.cbr.ru/scripts/XML_daily.asp?date_req=' . $date);
         $xml = simplexml_load_string($response->body(), "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xml);
-        $array = json_decode($json,TRUE);
-        
-        
+        $array = json_decode($json,TRUE);     
+                
         foreach($array['Valute'] as $data){
             Currency::create([
                 'valuteID' => $data['@attributes']['ID'],
@@ -37,7 +36,7 @@ class GetCurrency extends Seeder
                 'сharCode' => $data['CharCode'],
                 'name' => $data['Name'],
                 'value' => $data['Value'],
-                'date' => date('y-m-d'),
+                'date' => Carbon::createFromFormat('d/m/Y', $date)
             ]);
         }
 

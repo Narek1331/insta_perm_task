@@ -11,7 +11,15 @@ class CurrencyController extends Controller
         $this->currency_service = $currencyService;
     }
 
-    public function index(){
-        dd($this->currency_service->index());
+    /*
+        Get currencies
+    */
+
+    public function index(Request $request){
+        $currencies = $this->currency_service->index($request->query());
+        return response()->json([
+            'status' => true,
+            'currencies' => $currencies
+        ],200);
     }
 }

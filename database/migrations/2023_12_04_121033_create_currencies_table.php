@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('сharCode');
             $table->string('name');
             $table->string('value');
-            $table->date('date');
+            $table->date('date')->format('d/m/Y');
         });
     }
 
